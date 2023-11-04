@@ -40,17 +40,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //[[ほげほげ, 1], [ふがふが, 0], [ふぉー, 1]]
   List<List<dynamic>> questions = [];
 
   int currentQuestion = 0;
 
-  bool buttonEnable = true;
-
+  //o:1, x:0
   int userSelect = 2;
+
+  int correctCount = 0;
 
   String ansText = "";
 
-  int correctCount = 0;
+  //クイズが終了したら押せなくする
+  bool buttonEnable = true;
 
   bool showAnsText = true;
 
@@ -81,17 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
   }
-  // _loadCSV();
-
-  // setState(() {
-  //   for (var i = 0; i < _data.length; i++) {
-  //     question.add(_data[i][0].join(""));
-  //   }
-
-  //   for (var i = 0; i < _data.length; i++) {
-  //     answer.add(_data[i][1]);
-  //   }
-  // });
 
   @override
   Widget build(BuildContext context) {
@@ -101,41 +93,37 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(widget.title),
       // ),
       body: (questions.isEmpty)
-          ? CircularProgressIndicator()
+          //読み込むまでまつ
+          ? const CircularProgressIndicator()
+          //読み込んだらクイズを表示
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //開始ボタン
                 Text(
                   '問題:${currentQuestion + 1}/${questions.length}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 40,
                   ),
                 ),
                 Text(
                   '${questions[currentQuestion][0]}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 50,
                   ),
                 ),
                 ButtonBar(
                     alignment: MainAxisAlignment.center,
-                    buttonPadding:
-                        EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+                    buttonPadding: const EdgeInsets.symmetric(
+                        horizontal: 80, vertical: 10),
                     children: [
                       SizedBox(
                         height: 100,
                         width: 300,
                         child: ElevatedButton(
-                          child: const Text(
-                            '⭕',
-                            style: TextStyle(
-                              fontSize: 40,
-                            ),
-                          ),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.blue,
-                            onPrimary: Colors.white,
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -146,8 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   setState(() {
                                     userSelect = 1;
                                     showAnsText = true;
+                                    //関数を使ってみる
                                     checkAnswer();
-                                    Future.delayed(Duration(seconds: 3), () {
+                                    //回答結果を5秒間表示
+                                    Future.delayed(const Duration(seconds: 3),
+                                        () {
                                       setState(() {
                                         showAnsText = false;
                                       });
@@ -155,21 +146,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                 }
                               : null,
+                          child: const Text(
+                            '⭕',
+                            style: TextStyle(
+                              fontSize: 40,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 100,
                         width: 300,
                         child: ElevatedButton(
-                          child: const Text(
-                            '❌',
-                            style: TextStyle(
-                              fontSize: 40,
-                            ),
-                          ),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            onPrimary: Colors.white,
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -181,7 +172,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     userSelect = 0;
                                     showAnsText = true;
                                     checkAnswer();
-                                    Future.delayed(Duration(seconds: 3), () {
+                                    Future.delayed(const Duration(seconds: 3),
+                                        () {
                                       setState(() {
                                         showAnsText = false;
                                       });
@@ -189,22 +181,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                 }
                               : null,
+                          child: const Text(
+                            '❌',
+                            style: TextStyle(
+                              fontSize: 40,
+                            ),
+                          ),
                         ),
                       ),
                     ]),
                 if (showAnsText)
                   Text(
-                    '$ansText',
-                    style: TextStyle(fontSize: 40),
+                    ansText,
+                    style: const TextStyle(fontSize: 40),
                   ),
                 if (showEndMessage)
-                  Text(
+                  const Text(
                     'クイズが終了しました\nF5を押してください',
                     style: TextStyle(fontSize: 40),
                   ),
                 Text(
-                  '正解数:${correctCount}/${questions.length}',
-                  style: TextStyle(fontSize: 40),
+                  '正解数:$correctCount/${questions.length}',
+                  style: const TextStyle(fontSize: 40),
                 ),
               ],
             ),
