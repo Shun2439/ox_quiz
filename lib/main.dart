@@ -9,7 +9,7 @@ void main() {
 
 //csvの読み込み
 Future<List<List<dynamic>>> loadCsvData() async {
-  final csvData = await rootBundle.loadString('quiz.csv');
+  final csvData = await rootBundle.loadString('assets/quiz.csv');
   List<List<dynamic>> questions = const CsvToListConverter().convert(csvData);
   return questions;
 }
