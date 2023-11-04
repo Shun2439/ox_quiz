@@ -16674,7 +16674,7 @@ s.uZ()},
 UN(){var s=0,r=A.U(t.iN),q,p
 var $async$UN=A.V(function(a,b){if(a===1)return A.R(b,r)
 while(true)switch(s){case 0:s=3
-return A.Z($.EL().Rd("quiz.csv"),$async$UN)
+return A.Z($.EL().Rd("assets/quiz.csv"),$async$UN)
 case 3:p=b
 q=A.a9G(A.a([p],t.yH),!0,null,",",'"','"',"\r\n",!0,!0,null).O3(p,t.z)
 s=1
