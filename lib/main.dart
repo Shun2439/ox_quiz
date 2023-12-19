@@ -1,16 +1,26 @@
-import 'package:flutter/material.dart';
+//csvの読み込みをするために使う？
 import 'dart:async';
+import 'dart:math';
+
+//csvのパッケージ
 import 'package:csv/csv.dart';
+
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-//csvの読み込み
+//csvの読み込みをする関数
 Future<List<List<dynamic>>> loadCsvData() async {
+  //生のデータを読む（？）
   final csvData = await rootBundle.loadString('assets/quiz.csv');
+
+  //データを切り分けて扱いやすいようにする
   List<List<dynamic>> questions = const CsvToListConverter().convert(csvData);
+
+  //データを返す
   return questions;
 }
 
@@ -39,8 +49,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class ScaleSize {
+  static double textScaleFactor(BuildContext context,
+      {double maxTextScaleFactor = 2}) {
+    final width = MediaQuery.of(context).size.width;
+    double val = (width / 1400) * maxTextScaleFactor;
+    return max(1, min(val, maxTextScaleFactor));
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
-  //[[ほげほげ, 1], [ふがふが, 0], [ふぉー, 1]]
   List<List<dynamic>> questions = [];
 
   int currentQuestion = 0;
@@ -87,11 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: prefer_typing_uninitialized_variables
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   title: Text(widget.title),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
       body: (questions.isEmpty)
           //読み込むまでまつ
           ? const CircularProgressIndicator()
@@ -102,15 +121,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 //開始ボタン
                 Text(
                   '問題:${currentQuestion + 1}/${questions.length}',
-                  style: const TextStyle(
-                    fontSize: 40,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                  // ignore: deprecated_member_use
+                  textScaleFactor: ScaleSize.textScaleFactor(context),
                 ),
                 Text(
                   '${questions[currentQuestion][0]}',
-                  style: const TextStyle(
-                    fontSize: 50,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                  // ignore: deprecated_member_use
+                  textScaleFactor: ScaleSize.textScaleFactor(context),
                 ),
                 ButtonBar(
                     alignment: MainAxisAlignment.center,
@@ -146,11 +167,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                 }
                               : null,
-                          child: const Text(
+                          child: Text(
                             '⭕',
-                            style: TextStyle(
-                              fontSize: 40,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                            // ignore: deprecated_member_use
+                            textScaleFactor: ScaleSize.textScaleFactor(context),
                           ),
                         ),
                       ),
@@ -181,28 +203,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                 }
                               : null,
-                          child: const Text(
+                          child: Text(
                             '❌',
-                            style: TextStyle(
-                              fontSize: 40,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                            // ignore: deprecated_member_use
+                            textScaleFactor: ScaleSize.textScaleFactor(context),
                           ),
                         ),
                       ),
                     ]),
-                if (showAnsText)
-                  Text(
-                    ansText,
-                    style: const TextStyle(fontSize: 40),
-                  ),
+                Text(
+                  ansText,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                  // ignore: deprecated_member_use
+                  textScaleFactor: ScaleSize.textScaleFactor(context),
+                ),
                 if (showEndMessage)
-                  const Text(
+                  Text(
                     'クイズが終了しました\nF5を押してください',
-                    style: TextStyle(fontSize: 40),
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.center,
+                    // ignore: deprecated_member_use
+                    textScaleFactor: ScaleSize.textScaleFactor(context),
                   ),
                 Text(
                   '正解数:$correctCount/${questions.length}',
-                  style: const TextStyle(fontSize: 40),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                  // ignore: deprecated_member_use
+                  textScaleFactor: ScaleSize.textScaleFactor(context),
                 ),
               ],
             ),
